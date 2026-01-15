@@ -1,3 +1,4 @@
+
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
@@ -10,7 +11,7 @@ public class ProdutosDAO {
     PreparedStatement prep;
     ResultSet resultset;
 
-    public void cadastrarProduto (ProdutosDTO produto){
+    public void cadastrarProduto(ProdutosDTO produto) {
 
         String sql = "INSERT INTO produtos (nome, valor, status) VALUES (?, ?, ?)";
 
@@ -32,7 +33,7 @@ public class ProdutosDAO {
         }
     }
 
-    public ArrayList<ProdutosDTO> listarProdutos(){
+    public ArrayList<ProdutosDTO> listarProdutos() {
 
         ArrayList<ProdutosDTO> listagem = new ArrayList<>(); // lista nova toda vez
 
@@ -43,7 +44,7 @@ public class ProdutosDAO {
             prep = conn.prepareStatement(sql);
             resultset = prep.executeQuery();
 
-            while(resultset.next()){
+            while (resultset.next()) {
                 ProdutosDTO p = new ProdutosDTO();
                 p.setId(resultset.getInt("id"));
                 p.setNome(resultset.getString("nome"));
@@ -58,5 +59,23 @@ public class ProdutosDAO {
         }
 
         return listagem;
+    }
+
+    public void venderProduto(int id) {
+        String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
+
+        conn = new conectaDAO().connectDB();
+
+        try {
+            prep = conn.prepareStatement(sql);
+            prep.setInt(1, id);
+            prep.executeUpdate();
+            prep.close();
+
+            JOptionPane.showMessageDialog(null, "Produto vendido com sucesso!");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao vender produto: " + e.getMessage());
+        }
     }
 }
