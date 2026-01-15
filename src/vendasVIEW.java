@@ -1,40 +1,38 @@
+
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 
-
 public class vendasVIEW extends javax.swing.JFrame {
-
 
     public vendasVIEW() {
         initComponents();
         listarProdutosVendidos();
     }
-    
+
     private void listarProdutosVendidos() {
-    try {
-        ProdutosDAO produtosdao = new ProdutosDAO();
+        try {
+            ProdutosDAO produtosdao = new ProdutosDAO();
 
-        DefaultTableModel model = (DefaultTableModel) tabelaVendas.getModel();
-        model.setRowCount(0);
+            DefaultTableModel model = (DefaultTableModel) tabelaVendas.getModel();
+            model.setRowCount(0);
 
-        ArrayList<ProdutosDTO> lista = produtosdao.listarProdutosVendidos();
+            ArrayList<ProdutosDTO> lista = produtosdao.listarProdutosVendidos();
 
-        for (ProdutosDTO p : lista) {
-            model.addRow(new Object[]{
-                p.getId(),
-                p.getNome(),
-                p.getValor(),
-                p.getStatus()
-            });
+            for (ProdutosDTO p : lista) {
+                model.addRow(new Object[]{
+                    p.getId(),
+                    p.getNome(),
+                    p.getValor(),
+                    p.getStatus()
+                });
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar vendas: " + e.getMessage());
         }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Erro ao listar vendas: " + e.getMessage());
     }
-}
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -79,6 +77,11 @@ public class vendasVIEW extends javax.swing.JFrame {
         }
 
         btnVoltar.setText("Voltar");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -124,6 +127,10 @@ public class vendasVIEW extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnVoltarActionPerformed
 
     /**
      * @param args the command line arguments
